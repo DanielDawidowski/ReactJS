@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react'
 import pet, { ANIMALS } from '@frontendmasters/pet'
 import useDropdown from './useDropdown'
+import Results from './Results'
 
 const SearchParams = () => {
     const [location, setlocation] = useState('Seattle, WA')
     const [breeds, setBreeds] = useState([])
-    const [animal, AnimalDropdown] = useDropdown('Animal',"dog", ANIMALS)
-    const [breed, BreedDropdown, setBreed] = useDropdown('Breed',"", breeds)
+    const [animal, AnimalDropdown] = useDropdown('Animal','dog', ANIMALS)
+    const [breed, BreedDropdown, setBreed] = useDropdown('Breed','', breeds)
     const [pets, setPets] = useState([])
 
     async function requestPets() {
@@ -23,19 +24,21 @@ const SearchParams = () => {
         setBreeds([])
         setBreed('')
 
-        pet.breeds(animal).then(({ breeds: apiBreeds }) => {
-            const breedStrings = apiBreeds.map(({ name }) => name)
+        pet.breeds(animal).then(({ breeds }) => {
+            const breedStrings = breeds.map(({ name }) => name)
             setBreeds(breedStrings)
-        }, console.error)
+        })
     }, [animal, setBreed, setBreeds])
 
     return (
         <div className="search-params">
             {/* {location} */}
-            <form onSubmit={(e) => {
-                e.preventDefault()
-                requestPets()
-            }}>
+            <form 
+                onSubmit={(e) => {
+                    e.preventDefault();
+                    requestPets();
+                }}
+            >
                 <label htmlFor="location">
                     Location
                     <input id="location" value={location} placeholder='Location' onChange={e=> setlocation(e.target.value)}
@@ -45,6 +48,7 @@ const SearchParams = () => {
                 <BreedDropdown />
                 <button>Submit</button>
             </form>
+            <Results pets={pets} />
         </div>
     )
 }
