@@ -4,8 +4,10 @@
   }
   
   body {
-    background-color: #81a69b;
-    background-image: url(http://static.frontendmasters.com/resources/2019-05-02-complete-intro-react-v5/image-background.png);
+    background: linear-gradient(#ffa126,#11bddb);
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 100vh;
     margin: 0;
     font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   }
